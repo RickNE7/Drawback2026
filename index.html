@@ -3,20 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>App Didáctica: Drawback Perú</title>
+    <title>App Didáctica: Drawback Perú | Eric Mozombite</title>
     <!-- Confirmación: NO se ha utilizado Mermaid JS NI tampoco se ha utilizado SVG en ninguna parte de este código. Se han empleado íconos de FontAwesome (Webfont) y Canvas para los gráficos. -->
-    <link rel="icon" href="https://www.sunat.gob.pe/favicon.ico" type="image/x-icon">
+    
+    <!-- Favicon Oficial SUNAT -->
+    <link rel="icon" href="https://www.sunat.gob.pe/img/favicon.7124d68e.ico" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Paleta Vibrante "Brilliant Blues & Energetic" -->
+    <!-- Plan Narrativo: Inicio -> Fundamentos -> Debate Histórico -> Reglas/Límites -> Simulador -> Fuentes -->
     <style>
         :root {
             --bg-app: #F8FAFC;
             --primary: #0F172A;
-            --accent: #2563EB;
+            --accent: #2563EB; /* Azul vibrante */
             --accent-light: #DBEAFE;
-            --secondary: #06B6D4;
+            --secondary: #06B6D4; /* Cyan */
             --success: #10B981;
             --warning: #F59E0B;
             --danger: #EF4444;
@@ -28,10 +38,14 @@
         }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; background-color: #CBD5E1; color: var(--primary); height: 100dvh; overflow: hidden; display: flex; justify-content: center; align-items: center; }
+        
+        /* Layout Principal */
         .app-container { width: 100%; height: 100%; background: var(--bg-app); position: relative; overflow: hidden; display: flex; flex-direction: column-reverse; }
         @media (min-width: 1024px) {
             .app-container { max-width: 1200px; height: 95vh; border-radius: var(--radius); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); flex-direction: row; }
         }
+        
+        /* Navegación */
         .nav-bar { background: var(--white); border-top: 1px solid var(--border); height: var(--nav-height); display: flex; justify-content: space-around; align-items: center; z-index: 100; padding-bottom: env(safe-area-inset-bottom); flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.03); }
         @media (min-width: 1024px) {
             .nav-bar { width: 260px; height: 100%; flex-direction: column; justify-content: flex-start; border-top: none; border-right: 1px solid var(--border); padding: 2rem 1rem; gap: 0.5rem; box-shadow: none; overflow-y: auto; }
@@ -48,16 +62,22 @@
             .nav-item.active { background: var(--accent); color: white !important; }
             .nav-item.active i { color: white; }
         }
+        
+        /* Contenedor de Secciones */
         .content-area { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; }
         .section { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scroll-behavior: smooth; opacity: 0; pointer-events: none; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease; background: var(--bg-app); display: flex; flex-direction: column; }
         .section.active { opacity: 1; pointer-events: auto; transform: translateY(0); z-index: 10; }
         .sticky-header { position: sticky; top: 0; background: rgba(248, 250, 252, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 1.5rem 1.5rem 1rem 1.5rem; z-index: 20; border-bottom: 1px solid rgba(0,0,0,0.05); flex-shrink: 0; }
         .section-content { padding: 1rem 1.5rem 6rem 1.5rem; overflow-y: auto; flex: 1; }
+        
+        /* Tipografía */
         h1 { font-family: 'Space Grotesk'; font-size: 2.2rem; line-height: 1.1; margin: 0; color: var(--primary); text-align: center; }
         h2 { font-family: 'Space Grotesk'; font-size: 1.5rem; margin: 0; color: var(--accent); text-align: left; }
         h3 { font-size: 1.1rem; font-weight: 700; margin: 0 0 0.5rem 0; color: var(--primary); text-align: left; }
         p, li, .card-body, .timeline-content, .text-justify { font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 1rem; text-align: justify; }
         .subtitle { font-size: 0.75rem; color: #64748B; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 0.25rem; display: block; }
+        
+        /* Tarjetas Interactivas (Acordeón Educativo) */
         .interactive-card { background: white; border-radius: 16px; margin-bottom: 1rem; border: 1px solid var(--border); overflow: hidden; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
         .interactive-card:hover { border-color: var(--secondary); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.05);}
         .interactive-card.active { border-color: var(--accent); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1); transform: translateY(0);}
@@ -66,18 +86,24 @@
         .card-body { padding: 0 1.2rem 1.2rem 1.2rem; display: none; animation: slideDown 0.3s ease; border-top: 1px solid #F1F5F9; margin-top: -0.5rem; padding-top: 1rem; }
         .card-body.show { display: block; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Chart Containers */
         .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 280px; max-height: 400px; }
         @media (min-width: 768px) { .chart-container { height: 350px; } }
-        .calc-screen { background: linear-gradient(145deg, #0F172A, #1E293B); color: white; border-radius: 24px; padding: 1.5rem; box-shadow: 0 15px 35px -5px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); }
-        .calc-input-group { margin-bottom: 1.2rem; }
-        .calc-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1.2rem; padding: 0.8rem; border-radius: 12px; outline: none; font-family: 'Space Grotesk'; transition: 0.3s; font-weight: 600; }
+        
+        /* UI Simulador Compacto */
+        .calc-screen { background: linear-gradient(145deg, #0F172A, #1E293B); color: white; border-radius: 24px; padding: 1.2rem; box-shadow: 0 15px 35px -5px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); }
+        .calc-input-group { margin-bottom: 0.5rem; }
+        .calc-input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 1.1rem; padding: 0.6rem; border-radius: 10px; outline: none; font-family: 'Space Grotesk'; transition: 0.3s; font-weight: 600; }
         .calc-input:focus { border-color: var(--secondary); background: rgba(255,255,255,0.1); box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);}
         .calc-deduction { border-color: rgba(245, 158, 11, 0.4); color: #FCD34D; }
-        .custom-checkbox { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 12px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; margin-bottom: 0.5rem; }
+        .custom-checkbox { display: flex; align-items: flex-start; gap: 0.5rem; padding: 0.75rem; background: rgba(255,255,255,0.05); border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; height: 100%; }
         .custom-checkbox:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
-        .custom-checkbox input[type="checkbox"] { appearance: none; width: 20px; height: 20px; background: rgba(255,255,255,0.2); border-radius: 6px; flex-shrink: 0; position: relative; cursor: pointer; margin-top: 2px; }
+        .custom-checkbox input[type="checkbox"] { appearance: none; width: 18px; height: 18px; background: rgba(255,255,255,0.2); border-radius: 4px; flex-shrink: 0; position: relative; cursor: pointer; margin-top: 2px; }
         .custom-checkbox input[type="checkbox"]:checked { background: var(--danger); }
-        .custom-checkbox input[type="checkbox"]:checked::after { content: '\f00d'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; }
+        .custom-checkbox input[type="checkbox"]:checked::after { content: '\f00d'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 11px; }
+        
+        /* Timeline Data Visualization */
         .timeline { position: relative; padding-left: 1.5rem; margin: 1rem 0; }
         .timeline::before { content: ''; position: absolute; left: 6px; top: 5px; bottom: 5px; width: 2px; background: #E2E8F0; }
         .timeline-item { position: relative; margin-bottom: 1.5rem; }
@@ -87,9 +113,11 @@
 <body>
 
 <div class="app-container">
+    
+    <!-- NAVEGACIÓN -->
     <nav class="nav-bar">
         <button class="nav-item active" onclick="nav('home')"><i class="fa-solid fa-house"></i><span>Inicio</span></button>
-        <button class="nav-item" onclick="nav('teoria')"><i class="fa-solid fa-graduation-cap"></i><span>Aprende</span></button>
+        <button class="nav-item" onclick="nav('teoria')"><i class="fa-solid fa-graduation-cap"></i><span>Conceptos</span></button>
         <button class="nav-item" onclick="nav('historia')"><i class="fa-solid fa-chart-line"></i><span>Debate</span></button>
         <button class="nav-item" onclick="nav('reglas')"><i class="fa-solid fa-scale-unbalanced"></i><span>Reglas</span></button>
         <button class="nav-item" onclick="nav('simulador')"><i class="fa-solid fa-laptop-code"></i><span>Simulador</span></button>
@@ -97,362 +125,362 @@
     </nav>
 
     <main class="content-area">
+        
+        <!-- SECCIÓN: INICIO -->
         <section id="home" class="section active">
             <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; background: linear-gradient(135deg, #ECFEFF 0%, #FFFFFF 100%);">
-                <div style="background: var(--warning); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);">RÉGIMEN PROMOCIONAL</div>
+                <div style="background: var(--warning); color: white; padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.85rem; margin-bottom: 1.5rem; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);">RÉGIMEN ADUANERO PROMOCIONAL</div>
+                
                 <h1 style="margin-bottom: 1rem; font-size: 3rem;">El Drawback<br><span style="color:var(--secondary)">Peruano</span></h1>
-                <p class="text-center" style="max-width: 450px; color: #64748B; font-size: 1.1rem;">Aprende cómo funciona la restitución arancelaria, su debate actual y audita tu exportación.</p>
+                
+                <p class="text-center" style="max-width: 450px; color: #64748B; font-size: 1.1rem;">Aprende de manera didáctica cómo funciona la restitución arancelaria, su debate actual y audita tu exportación.</p>
+                
                 <div style="background: white; padding: 1.5rem; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); margin: 2rem 0; border: 1px solid var(--border); width: 100%; max-width: 300px; position: relative; overflow: hidden;">
                     <div style="position: absolute; top:0; left:0; right:0; height: 4px; background: var(--secondary);"></div>
                     <div style="font-size: 0.85rem; text-transform: uppercase; color: #94A3B8; font-weight: 800; margin-bottom: 5px;">Tasa Vigente Restitución</div>
                     <div style="font-size: 4rem; font-weight: 800; color: var(--primary); font-family: 'Space Grotesk'; line-height: 1;">3%</div>
                     <div style="font-size: 0.85rem; color: #64748B; margin-top: 5px; font-weight: 500;">del Valor FOB Neto</div>
                 </div>
+                
                 <div style="margin-top: 1rem; text-align: center;">
-                    <button onclick="nav('teoria')" style="background: var(--accent); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; transition: transform 0.2s;">Ingresar al Módulo <i class="fa-solid fa-arrow-right ml-2"></i></button>
-                    <div style="font-size: 0.9rem; font-weight: 600; color: #94A3B8;">Autor: Eric Mozombite</div>
+                    <button onclick="nav('teoria')" style="background: var(--accent); color: white; border: none; padding: 1rem 2.5rem; border-radius: 50px; font-weight: 700; font-size: 1.1rem; cursor: pointer; box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3); margin-bottom: 1.5rem; transition: transform 0.2s;">Iniciar Recorrido <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #94A3B8;">Investigación: Eric Mozombite</div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN: TEORÍA -->
         <section id="teoria" class="section">
             <header class="sticky-header">
                 <span class="subtitle">MÓDULO 1: CONCEPTOS</span>
                 <h2>Fundamentos y Control</h2>
             </header>
             <div class="section-content">
-                <p class="mb-4">Haz clic en cada tarjeta para explorar los fundamentos técnicos del Drawback respaldados por SUNAT y ESAN.</p>
+                <p class="mb-4 text-justify">Expande cada tarjeta para explorar los fundamentos técnicos del régimen aduanero, respaldados por SUNAT y ESAN.</p>
 
+                <!-- Tarjeta 1 -->
                 <div class="interactive-card active" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50">
                         <div class="card-icon" style="background: var(--accent);"><i class="fa-solid fa-lightbulb"></i></div>
                         <div style="flex:1;">
                             <div class="font-bold text-slate-800">Filosofía y Definición</div>
-                            <div class="text-xs text-slate-500">¿Cuál es el objetivo del D.S. N° 104-95-EF?</div>
+                            <div class="text-xs text-slate-500">Objetivo del D.S. N° 104-95-EF</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s; transform: rotate(180deg);"></i>
                     </div>
                     <div class="card-body show">
-                        <p class="mt-2">El Drawback es un régimen aduanero que permite a los <strong>productores-exportadores</strong> recuperar los derechos arancelarios pagados al importar insumos utilizados en un bien exportado.</p>
+                        <p class="mt-2 text-justify">El Drawback es el Procedimiento Simplificado de Restitución de Derechos Arancelarios. Permite a los <strong>productores-exportadores</strong> recuperar un porcentaje del valor de exportación, si el costo de su producto se encareció al pagar impuestos (aranceles) por insumos importados.</p>
                         <div style="background: #EFF6FF; border-left: 4px solid var(--accent); padding: 1.2rem; border-radius: 0 12px 12px 0; margin-top: 1rem;">
-                            <h4 style="color: var(--accent); font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye mr-2"></i> "No exportar impuestos"</h4>
-                            <p style="margin: 0; font-size: 0.9rem; color: #1E40AF;">El objetivo es que los sobrecostos de importar materiales no le resten competitividad internacional al producto peruano.</p>
+                            <h4 style="color: var(--accent); font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-bullseye mr-2"></i> El Principio: "No exportar impuestos"</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: #1E40AF; text-justify">Garantiza que los sobrecostos de importar materiales no le resten competitividad al producto peruano en el mercado internacional.</p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Tarjeta 2 -->
                 <div class="interactive-card" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50">
                         <div class="card-icon" style="background: var(--secondary);"><i class="fa-solid fa-box-open"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Insumos Incorporables (PromPerú)</div>
-                            <div class="text-xs text-slate-500">¿Qué materiales califican?</div>
+                            <div class="font-bold text-slate-800">Insumos Incorporables</div>
+                            <div class="text-xs text-slate-500">Según directivas de PromPerú</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
                     </div>
                     <div class="card-body">
-                        <p class="mt-2 text-sm">La normativa establece que solo puedes acogerte si importaste pagando aranceles alguno de estos tres elementos fundamentales:</p>
+                        <p class="mt-2 text-sm text-justify">Para aplicar, el bien exportado debe contener físicamente materiales importados que hayan pagado el 100% de sus derechos arancelarios. Estos se dividen en:</p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
                                 <i class="fa-solid fa-vial text-purple-500 text-3xl mb-3"></i>
                                 <h4 class="font-bold text-slate-800 text-sm">Materias Primas</h4>
-                                <p class="text-[0.75rem] text-slate-500 mt-2">Sustancias que se transforman. Ej: Tela para hacer camisas.</p>
+                                <p class="text-[0.75rem] text-slate-500 mt-2">Sustancias que sufren transformación. Ej: Tela importada para fabricar prendas.</p>
                             </div>
                             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
                                 <i class="fa-solid fa-puzzle-piece text-secondary text-3xl mb-3"></i>
                                 <h4 class="font-bold text-slate-800 text-sm">Piezas y Partes</h4>
-                                <p class="text-[0.75rem] text-slate-500 mt-2">Elementos ensamblados. Ej: Botones, cierres, etiquetas.</p>
+                                <p class="text-[0.75rem] text-slate-500 mt-2">Elementos que se ensamblan al producto. Ej: Cierres, botones o etiquetas.</p>
                             </div>
                             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm text-center">
                                 <i class="fa-solid fa-box text-warning text-3xl mb-3"></i>
                                 <h4 class="font-bold text-slate-800 text-sm">Envases</h4>
-                                <p class="text-[0.75rem] text-slate-500 mt-2">Protegen el producto. Ej: Cajas clamshell para arándanos.</p>
+                                <p class="text-[0.75rem] text-slate-500 mt-2">Material que protege el producto. Ej: Cajas *clamshell* para agroexportación.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Tarjeta 3 -->
                 <div class="interactive-card" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50">
                         <div class="card-icon" style="background: var(--purple);"><i class="fa-solid fa-file-signature"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Control Aduanero (ESAN)</div>
-                            <div class="text-xs text-slate-500">Documentación Sustentatoria</div>
+                            <div class="font-bold text-slate-800">Control Aduanero y Documentario</div>
+                            <div class="text-xs text-slate-500">¿Qué exige la SUNAT (ESAN)?</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
                     </div>
                     <div class="card-body">
-                        <p class="mt-2 text-sm">Según análisis de ESAN, la fiscalización posterior de SUNAT es rigurosa. Se exige trazabilidad perfecta entre la importación y la exportación.</p>
-                        <ul class="list-disc pl-5 space-y-2 mt-2 text-sm text-slate-600">
-                            <li><strong>DAM de Importación:</strong> Prueba de nacionalización y pago de aranceles.</li>
-                            <li><strong>Facturas de Compra/Venta:</strong> Demuestran la adquisición y el valor FOB.</li>
-                            <li><strong>Kardex y Cuadro Insumo-Producto:</strong> Documentos críticos que demuestran matemáticamente qué cantidad exacta del insumo importado se utilizó en cada unidad exportada.</li>
+                        <p class="mt-2 text-sm text-justify">La fiscalización de SUNAT requiere trazabilidad perfecta. La empresa debe demostrar contable y físicamente la relación importación-producción-exportación.</p>
+                        <ul class="list-disc pl-5 space-y-2 mt-3 text-sm text-slate-600">
+                            <li><strong>DAM de Importación:</strong> Prueba indubitable de la nacionalización y pago de impuestos.</li>
+                            <li><strong>Facturas Comerciales:</strong> Demuestran la adquisición y respaldan el valor FOB final declarado.</li>
+                            <li><strong>Kardex y Cuadro Insumo-Producto:</strong> Documentos críticos que prueban matemáticamente qué cantidad exacta del insumo importado se utilizó en cada unidad exportada (mermas incluidas).</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- SECCIÓN: HISTORIA Y DEBATE -->
         <section id="historia" class="section">
             <header class="sticky-header">
-                <span class="subtitle">MÓDULO 2: CONTEXTO</span>
+                <span class="subtitle">MÓDULO 2: CONTEXTO POLÍTICO</span>
                 <h2>Historia y Propuestas de Reforma</h2>
             </header>
             <div class="section-content">
-                <p class="mb-4">El Drawback peruano es altamente debatido. Explora su evolución y las polémicas que sugieren su reforma o anulación.</p>
+                <p class="mb-4 text-justify">El Drawback es uno de los regímenes más debatidos. Explora su cronología de tensiones políticas y por qué se plantea su reforma estructural.</p>
 
-                <div class="interactive-card" onclick="toggleCard(this, renderHistoryChart)">
+                <!-- Gráfico de Evolución -->
+                <div class="interactive-card active" onclick="toggleCard(this, renderHistoryChart)">
                     <div class="card-header bg-slate-50 border-l-4 border-accent">
                         <div class="card-icon" style="background: var(--accent);"><i class="fa-solid fa-chart-line"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">La Montaña Rusa de Tasas</div>
-                            <div class="text-xs text-slate-500">Evolución porcentual (1995-2026)</div>
+                            <div class="font-bold text-slate-800">Evolución de las Tasas</div>
+                            <div class="text-xs text-slate-500">La "montaña rusa" porcentual</div>
                         </div>
-                        <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
+                        <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s; transform: rotate(180deg);"></i>
                     </div>
-                    <div class="card-body">
-                        <p class="text-sm mt-2 text-justify">El beneficio inició en 5% y fue usado como rescate financiero (8%) en la crisis del 2009. Desde 2016 se estabilizó en 3% por sinceramiento arancelario, ya que los TLCs han reducido a cero la mayoría de aranceles de importación, desvirtuando el propósito original del Drawback.</p>
+                    <div class="card-body show">
+                        <p class="text-sm mt-2 text-justify">La tasa ha servido como herramienta macroeconómica. Subió al 8% como rescate frente a la crisis Subprime (2009), y ha bajado paulatinamente hasta el 3% actual debido al impacto de los Tratados de Libre Comercio (TLCs) que redujeron naturalmente los aranceles.</p>
                         <div class="chart-container mt-4">
                             <canvas id="historyChart"></canvas>
                         </div>
                     </div>
                 </div>
 
+                <!-- Fechas de Tensión (Timeline) -->
                 <div class="interactive-card" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50 border-l-4 border-danger">
                         <div class="card-icon" style="background: var(--danger);"><i class="fa-solid fa-ban"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Intentos de Anulación y Críticas</div>
-                            <div class="text-xs text-slate-500">El debate del "Subsidio Ciego"</div>
+                            <div class="font-bold text-slate-800">Tensiones e Intentos de Anulación</div>
+                            <div class="text-xs text-slate-500">Fechas en las que el Drawback tembló</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
                     </div>
                     <div class="card-body">
-                        <p class="mt-2 text-sm">A lo largo de los años, múltiples ministros de economía e investigaciones han propuesto la eliminación o reducción drástica del Drawback.</p>
-                        <div class="timeline">
+                        <p class="mt-2 text-sm text-justify">Diversos gobiernos han intentado eliminar o recortar este beneficio, argumentando que distorsiona el libre mercado y genera forados fiscales.</p>
+                        <div class="timeline mt-4">
                             <div class="timeline-item">
-                                <div class="timeline-date">Crítica Estructural</div>
-                                <div class="timeline-content text-sm">Es considerado un <strong>subsidio ciego</strong> porque devuelve un flat del 3% del FOB, que muchas veces es matemáticamente superior al arancel que la empresa pagó al importar un insumo barato (ej. una etiqueta).</div>
+                                <div class="timeline-date text-danger">Año 2015 (Gestión Alonso Segura)</div>
+                                <div class="timeline-content text-sm text-justify">El MEF consideró que el beneficio estaba sobredimensionado. Inició un proceso de "sinceramiento" publicando un decreto para recortar la tasa del 5% al 4% en 2015 y luego al 3% en 2016, proyectando su eventual desaparición total.</div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-date">Investigación Ojo Público</div>
-                                <div class="timeline-content text-sm">Reveló que grandes corporaciones agroexportadoras recibieron <strong>S/ 9,000 millones en 10 años</strong>. Se cuestiona si empresas transnacionales multimillonarias necesitan este incentivo diseñado originalmente para reactivar la economía de PYMES.</div>
+                                <div class="timeline-date text-danger">Octubre 2024 (Gestión José Arista)</div>
+                                <div class="timeline-content text-sm text-justify">Ante una grave crisis de recaudación fiscal, el MEF evaluó y preparó un decreto para recortar drásticamente el Drawback del 3% a <strong>1% o incluso 0.5%</strong>. La medida fue abortada en el último minuto tras fuerte presión mediática y política de gremios exportadores (ADEX, SNI).</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Por qué y Cómo Reformar -->
                 <div class="interactive-card" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50 border-l-4 border-warning">
                         <div class="card-icon" style="background: var(--warning);"><i class="fa-solid fa-screwdriver-wrench"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Propuestas de Reforma</div>
-                            <div class="text-xs text-slate-500">¿Hacia dónde va el Drawback?</div>
+                            <div class="font-bold text-slate-800">El Debate de la Reforma</div>
+                            <div class="text-xs text-slate-500">¿Por qué anularlo y cómo modificarlo?</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
                     </div>
                     <div class="card-body">
-                        <p class="mt-2 text-sm text-justify">Para evitar su eliminación total, los técnicos del MEF y especialistas aduaneros proponen modernizar el régimen:</p>
-                        <ul class="list-disc pl-5 space-y-2 mt-2 text-sm text-slate-600">
-                            <li><strong>Migrar al "Drawback Real":</strong> Eliminar la tasa plana del 3% del FOB. La aduana calcularía exactamente cuánto arancel pagó la empresa por el insumo y le devolvería *únicamente* esa cantidad exacta, ni un sol más.</li>
-                            <li><strong>Exclusión por Tamaño:</strong> Retirar del beneficio a la gran empresa corporativa y enfocarlo exclusivamente en la Micro y Pequeña Empresa exportadora.</li>
-                            <li><strong>Auditorías Preventivas:</strong> Requerir la documentación técnica (cuadros insumo-producto) antes del abono, no como fiscalización posterior, reduciendo el riesgo de fraude.</li>
-                        </ul>
+                        <div style="background: #FEF2F2; padding: 1rem; border-radius: 12px; border: 1px solid #FECACA; margin-top: 10px;">
+                            <h4 style="color: #DC2626; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem;">¿Por qué se propone reformarlo o anularlo?</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm text-red-900">
+                                <li><strong>Es un "Subsidio Ciego":</strong> Al ser una tasa plana (3% del FOB total), las empresas a menudo reciben del Estado mucho más dinero del que realmente pagaron en aranceles por insumos baratos.</li>
+                                <li><strong>Concentración de Riqueza:</strong> Investigaciones (como la de Ojo Público) demostraron que grandes agroexportadoras multimillonarias captaron S/ 9,000 millones en 10 años, desvirtuando el fin original de "ayudar a la PYME".</li>
+                                <li><strong>Convergencia de TLCs:</strong> Hoy en día, la inmensa mayoría de insumos entran con 0% de arancel. Mantener el Drawback generalizado es considerado fiscalmente ineficiente.</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: #FFFBEB; padding: 1rem; border-radius: 12px; border: 1px solid #FDE68A; margin-top: 10px;">
+                            <h4 style="color: #D97706; font-weight: 700; font-size: 0.95rem; margin-bottom: 0.5rem;">¿De qué manera sería la reforma estructural?</h4>
+                            <ul class="list-disc pl-5 space-y-1 text-sm text-amber-900">
+                                <li><strong>Pasar al "Drawback Real o Perfecto":</strong> Eliminar el porcentaje fijo sobre el FOB. La aduana calcularía y devolvería matemáticamente <em>solo el monto exacto</em> pagado como arancel de importación en la DAM.</li>
+                                <li><strong>Focalización Exclusiva:</strong> Restringir legalmente el beneficio solo para Micro y Pequeñas Empresas (MYPEs) para potenciar su internacionalización, excluyendo a grandes corporaciones.</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </section>
 
+        <!-- SECCIÓN: REGLAS Y LÍMITES -->
         <section id="reglas" class="section">
             <header class="sticky-header">
-                <span class="subtitle">MÓDULO 3: OPERATIVIDAD</span>
-                <h2 class="text-xl md:text-2xl">Reglas, Límites y Proceso</h2>
+                <span class="subtitle">MÓDULO 3: RESTRICCIONES</span>
+                <h2 class="text-xl md:text-2xl">Reglas y Limitaciones del Sistema</h2>
             </header>
             <div class="section-content">
-                <p class="mb-4">El Estado establece candados y tiempos estrictos en el procedimiento DESPA-PG.07.</p>
+                <p class="mb-4 text-justify">El procedimiento aduanero (DESPA-PG.07) establece "candados" estrictos para evitar fraudes en la solicitud de restitución.</p>
 
-                <div class="interactive-card" onclick="toggleCard(this, renderLimitChart)">
+                <!-- Regla del 50% -->
+                <div class="interactive-card active" onclick="toggleCard(this, renderLimitChart)">
                     <div class="card-header bg-slate-50 border-l-4 border-success">
                         <div class="card-icon" style="background: var(--success);"><i class="fa-solid fa-scale-unbalanced"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">La Regla del 50% CIF</div>
-                            <div class="text-xs text-slate-500">Asegurando el Valor Nacional</div>
+                            <div class="font-bold text-slate-800">La Regla del Valor CIF (50%)</div>
+                            <div class="text-xs text-slate-500">Asegurando el componente nacional</div>
                         </div>
-                        <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
+                        <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s; transform: rotate(180deg);"></i>
                     </div>
-                    <div class="card-body">
-                        <p class="text-sm mt-2 text-justify">El valor CIF (Costo, Seguro y Flete) de todos los insumos importados utilizados en la producción <strong>no puede superar el 50%</strong> del valor FOB del bien final. Si lo supera, el producto no es considerado "peruano".</p>
+                    <div class="card-body show">
+                        <p class="text-sm mt-2 text-justify">Para que un producto se considere "exportación peruana" y acceda al Drawback, el valor CIF (Costo, Seguro y Flete) de <strong>todos</strong> los insumos importados <strong>no puede superar el 50%</strong> del valor FOB del producto final. Si es 51%, el trámite es rechazado.</p>
                         <div class="chart-container mt-4">
                             <canvas id="limitChart"></canvas>
                         </div>
                     </div>
                 </div>
 
+                <!-- Exclusiones Legales -->
                 <div class="interactive-card" onclick="toggleCard(this)">
                     <div class="card-header bg-slate-50 border-l-4 border-danger">
                         <div class="card-icon" style="background: var(--danger);"><i class="fa-solid fa-handshake-slash"></i></div>
                         <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Exclusiones Directas</div>
-                            <div class="text-xs text-slate-500">TLCs, Topes y Tradicionales</div>
+                            <div class="font-bold text-slate-800">Causales de Exclusión</div>
+                            <div class="text-xs text-slate-500">Situaciones donde NO aplica</div>
                         </div>
                         <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
                     </div>
                     <div class="card-body">
                         <ul class="list-disc pl-5 space-y-3 mt-4 text-sm text-slate-600">
-                            <li><strong class="text-red-600">Uso de TLC (0%):</strong> Si importaste con Certificado de Origen sin pagar arancel, no hay Drawback. El requisito es haber pagado el 100% del Ad Valorem.</li>
-                            <li><strong class="text-amber-600">Exportaciones Tradicionales:</strong> Productos extractivos (oro, cobre, harina de pescado) están excluidos por el MEF.</li>
-                            <li><strong class="text-purple-600">Tope US$ 20 Millones:</strong> Límite anual por empresa para una misma subpartida arancelaria.</li>
+                            <li><strong class="text-red-600">El candado del TLC:</strong> Si el insumo ingresó al país pagando 0% de arancel (liberado por un Tratado de Libre Comercio), la aduana rechaza el Drawback. <strong>Truco del exportador: renunciar al TLC voluntariamente y pagar el arancel para ganar el 3% final.</strong></li>
+                            <li><strong class="text-amber-600">Productos Tradicionales:</strong> Exportaciones extractivas crudas (cobre, oro, harina de pescado) están vetadas por normativa expresa del MEF.</li>
+                            <li><strong class="text-purple-600">Límite de US$ 20 Millones:</strong> El beneficio se bloquea automáticamente si la empresa exporta más de veinte millones de dólares anuales <strong>en una misma subpartida arancelaria</strong>.</li>
                         </ul>
                     </div>
                 </div>
-
-                <div class="interactive-card" onclick="toggleCard(this)">
-                    <div class="card-header bg-slate-50 border-l-4 border-primary">
-                        <div class="card-icon" style="background: var(--primary);"><i class="fa-solid fa-stopwatch"></i></div>
-                        <div style="flex:1;">
-                            <div class="font-bold text-slate-800">Plazos del Proceso</div>
-                            <div class="text-xs text-slate-500">Línea de tiempo operativa</div>
-                        </div>
-                        <i class="fa-solid fa-chevron-down text-slate-400" style="transition: 0.3s;"></i>
-                    </div>
-                    <div class="card-body">
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-date">Día 0: Importación</div>
-                                <div class="timeline-content text-sm">Nacionalización de insumo (DAM de Importación).</div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Máx 36 Meses: Producción y Exportación</div>
-                                <div class="timeline-content text-sm">El insumo debe procesarse y exportarse antes de 3 años.</div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Máx 180 Días Hábiles: Solicitud</div>
-                                <div class="timeline-content text-sm">Desde el embarque, tienes ~9 meses para tramitar la web de SUNAT.</div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Fin: Abono en Cuenta</div>
-                                <div class="timeline-content text-sm">SUNAT audita y deposita al CCI de la empresa.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
+        <!-- SECCIÓN: SIMULADOR (Compacto) -->
         <section id="simulador" class="section">
             <header class="sticky-header">
                 <span class="subtitle">MÓDULO 4: AUDITORÍA VIRTUAL</span>
                 <h2>Simulador Interactivo</h2>
             </header>
-            <div class="section-content">
+            <div class="section-content flex flex-col justify-center">
                 
-                <p class="mb-4 text-justify">Ingresa los datos de tu exportación y activa las restricciones para auditar si tu operación califica legalmente para el cobro del 3%.</p>
+                <p class="mb-4 text-sm text-justify">Audita tu operación. Los valores están ajustados en un layout compacto para verificar el 3% sin hacer scroll excesivo.</p>
 
                 <div class="calc-screen">
-                    <h3 class="text-white border-b border-slate-600 pb-2 mb-4 text-sm uppercase tracking-wider"><i class="fa-solid fa-money-check-dollar mr-2"></i> 1. Valores Financieros</h3>
+                    <h3 class="text-white border-b border-slate-600 pb-1 mb-3 text-xs uppercase tracking-wider"><i class="fa-solid fa-money-check-dollar mr-2"></i> 1. Valores (US$)</h3>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                         <div class="calc-input-group">
-                            <label class="text-[0.7rem] uppercase tracking-widest text-slate-400 font-bold mb-1 block">FOB Bruto Facturado (US$)</label>
+                            <label class="text-[0.65rem] uppercase tracking-widest text-slate-400 font-bold mb-1 block">FOB Bruto</label>
                             <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                                <input type="number" id="fob-input" class="calc-input pl-8" value="100000" oninput="runDrawbackCalc()">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                                <input type="number" id="fob-input" class="calc-input pl-7" value="100000" oninput="runDrawbackCalc()">
                             </div>
                         </div>
                         <div class="calc-input-group">
-                            <label class="text-[0.7rem] uppercase tracking-widest text-amber-400 font-bold mb-1 block">Deducciones Fletes/Comisiones (US$)</label>
+                            <label class="text-[0.65rem] uppercase tracking-widest text-amber-400 font-bold mb-1 block">Deducciones</label>
                             <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-amber-400 font-bold">-$</span>
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400 font-bold">-$</span>
                                 <input type="number" id="deducciones-input" class="calc-input calc-deduction pl-8" value="5000" oninput="runDrawbackCalc()">
                             </div>
                         </div>
-                    </div>
-
-                    <div class="calc-input-group mt-2 mb-6 md:w-1/2">
-                        <label class="text-[0.7rem] uppercase tracking-widest text-slate-400 font-bold mb-1 block">Costo CIF Insumos Importados (US$)</label>
-                        <div class="relative">
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                            <input type="number" id="cif-input" class="calc-input pl-8 border-secondary" value="15000" oninput="runDrawbackCalc()">
+                        <div class="calc-input-group">
+                            <label class="text-[0.65rem] uppercase tracking-widest text-secondary font-bold mb-1 block">CIF Insumos</label>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
+                                <input type="number" id="cif-input" class="calc-input pl-7 border-secondary" value="15000" oninput="runDrawbackCalc()">
+                            </div>
                         </div>
                     </div>
 
-                    <h3 class="text-white border-b border-slate-600 pb-2 mb-4 mt-6 text-sm uppercase tracking-wider"><i class="fa-solid fa-list-check mr-2"></i> 2. Control de Exclusiones</h3>
+                    <h3 class="text-white border-b border-slate-600 pb-1 mb-3 text-xs uppercase tracking-wider"><i class="fa-solid fa-list-check mr-2"></i> 2. Restricciones Normativas</h3>
                     
-                    <div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
                         <label class="custom-checkbox">
                             <input type="checkbox" id="exc-tlc" onchange="runDrawbackCalc()">
-                            <span class="text-sm text-slate-300 mt-1"><strong>Usé TLC:</strong> Importé insumos pagando 0% de arancel.</span>
+                            <span class="text-xs text-slate-300 leading-tight"><strong>TLC (0%):</strong> Insumo no pagó arancel aduanero.</span>
                         </label>
                         <label class="custom-checkbox">
                             <input type="checkbox" id="exc-trad" onchange="runDrawbackCalc()">
-                            <span class="text-sm text-slate-300 mt-1"><strong>Tradicional:</strong> Mi producto está excluido por el MEF.</span>
+                            <span class="text-xs text-slate-300 leading-tight"><strong>Tradicional:</strong> Excluido por el MEF.</span>
                         </label>
                         <label class="custom-checkbox">
                             <input type="checkbox" id="exc-20m" onchange="runDrawbackCalc()">
-                            <span class="text-sm text-slate-300 mt-1"><strong>Tope 20M:</strong> Ya superé US$ 20 Millones exportados este año.</span>
+                            <span class="text-xs text-slate-300 leading-tight"><strong>+US$ 20M:</strong> Tope anual superado.</span>
                         </label>
                     </div>
 
-                    <div class="mt-8 bg-[#0B1120] p-6 rounded-xl border border-slate-700 shadow-inner">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm font-bold tracking-widest text-slate-400 uppercase">Estado Auditoría</span>
-                            <span id="calc-status" class="px-3 py-1.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/50">APROBADO</span>
+                    <div class="mt-5 bg-[#0B1120] p-4 rounded-xl border border-slate-700 shadow-inner flex flex-col md:flex-row justify-between items-center md:items-end gap-3">
+                        <div class="text-center md:text-left">
+                            <div class="text-[0.65rem] font-bold tracking-widest text-slate-400 uppercase mb-1">Estado Auditoría</div>
+                            <div id="calc-status" class="px-2 py-1 rounded text-xs font-bold inline-block">APROBADO</div>
                         </div>
-                        <div class="flex flex-col md:flex-row justify-between md:items-end mt-4">
-                            <span class="text-xs text-slate-400 mb-1 md:mb-0">Monto Calculado (3% FOB Neto)</span>
-                            <span id="calc-result" class="text-4xl md:text-5xl font-bold font-['Space_Grotesk'] text-success tracking-tight">$ 0.00</span>
+                        <div class="text-center md:text-right">
+                            <div class="text-[0.65rem] text-slate-400 mb-0.5">Restitución (3%)</div>
+                            <div id="calc-result" class="text-3xl font-bold font-['Space_Grotesk'] tracking-tight">$ 0.00</div>
                         </div>
                     </div>
                 </div>
 
-                <div id="calc-message" class="mt-4 p-5 rounded-xl bg-white border border-slate-200 text-sm text-slate-600 shadow-sm text-justify leading-relaxed"></div>
+                <div id="calc-message" class="mt-3 p-3 rounded-xl bg-white border border-slate-200 text-xs text-slate-600 shadow-sm text-justify transition-all"></div>
             </div>
         </section>
 
+        <!-- SECCIÓN: FUENTES -->
         <section id="fuentes" class="section">
             <header class="sticky-header">
                 <span class="subtitle">MÓDULO 5: BIBLIOGRAFÍA</span>
                 <h2>Fuentes de Información</h2>
             </header>
             <div class="section-content">
-                <p class="mb-4 text-justify">Documentación legal, técnica y periodística consultada:</p>
+                <p class="mb-4 text-justify">El presente informe y sus datos técnicos se sustentan en la siguiente documentación legal, operativa y periodística de acceso público:</p>
 
-                <div class="space-y-4">
+                <div class="space-y-3">
                     <a href="https://www.gob.pe/institucion/mef/normas-legales/2898142-179-2004-ef" target="_blank" class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-accent hover:shadow-md transition-all group">
                         <i class="fa-solid fa-gavel text-primary text-2xl mt-1 group-hover:scale-110 transition-transform"></i>
                         <div>
                             <div class="font-bold text-[0.95rem] text-accent">D.S. N° 179-2004-EF (MEF)</div>
-                            <div class="text-xs text-slate-500 mt-1">Contexto legal tributario.</div>
+                            <div class="text-xs text-slate-500 mt-1">Texto Único Ordenado de la Ley del Impuesto a la Renta y contexto aduanero base.</div>
                         </div>
                     </a>
+                    
                     <a href="https://www.sunat.gob.pe/legislacion/procedim/despacho/perfeccionam/drawback/procGeneral/despa-pg.07.htm" target="_blank" class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-secondary hover:shadow-md transition-all group">
                         <i class="fa-solid fa-file-contract text-secondary text-2xl mt-1 group-hover:scale-110 transition-transform"></i>
                         <div>
-                            <div class="font-bold text-[0.95rem] text-secondary">Proc. DESPA-PG.07 (SUNAT)</div>
-                            <div class="text-xs text-slate-500 mt-1">Procedimiento General de Restitución y reglas aduaneras.</div>
+                            <div class="font-bold text-[0.95rem] text-secondary">Procedimiento DESPA-PG.07 (SUNAT)</div>
+                            <div class="text-xs text-slate-500 mt-1">Normativa operativa del Procedimiento General de Restitución de Derechos.</div>
                         </div>
                     </a>
+                    
                     <a href="https://exportemos.pe/fortalece-tus-capacidades-exportadoras/logistica-para-exportar/drawback" target="_blank" class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-success hover:shadow-md transition-all group">
                         <i class="fa-solid fa-earth-americas text-success text-2xl mt-1 group-hover:scale-110 transition-transform"></i>
                         <div>
-                            <div class="font-bold text-[0.95rem] text-success">Guía Exportemos.pe (PromPerú)</div>
-                            <div class="text-xs text-slate-500 mt-1">Guía didáctica y topes monetarios.</div>
+                            <div class="font-bold text-[0.95rem] text-success">Guía Logística (PromPerú)</div>
+                            <div class="text-xs text-slate-500 mt-1">Plataforma Exportemos.pe. Guía didáctica para agroexportadores y condiciones de insumos.</div>
                         </div>
                     </a>
+                    
                     <a href="https://www.esan.edu.pe/conexion-esan/control-aduanero-la-documentacion-sustentatoria-en-el-drawback" target="_blank" class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-purple hover:shadow-md transition-all group">
                         <i class="fa-solid fa-magnifying-glass-chart text-purple text-2xl mt-1 group-hover:scale-110 transition-transform"></i>
                         <div>
-                            <div class="font-bold text-[0.95rem] text-purple">Control Aduanero (ESAN)</div>
-                            <div class="text-xs text-slate-500 mt-1">Análisis sobre la documentación sustentatoria.</div>
+                            <div class="font-bold text-[0.95rem] text-purple">Análisis Aduanero (Universidad ESAN)</div>
+                            <div class="text-xs text-slate-500 mt-1">Artículo técnico sobre la fiscalización posterior y la documentación sustentatoria obligatoria.</div>
                         </div>
                     </a>
+                    
                     <a href="https://ojo-publico.com/5663/drawback-exportadoras-recibieron-s9000-millones-diez-anos" target="_blank" class="flex gap-4 p-4 bg-white rounded-xl border border-slate-200 shadow-sm hover:border-danger hover:shadow-md transition-all group">
                         <i class="fa-solid fa-newspaper text-danger text-2xl mt-1 group-hover:scale-110 transition-transform"></i>
                         <div>
-                            <div class="font-bold text-[0.95rem] text-danger">Investigación Periodística (Ojo Público)</div>
-                            <div class="text-xs text-slate-500 mt-1">Reportaje sobre subsidios y propuestas de reforma al régimen.</div>
+                            <div class="font-bold text-[0.95rem] text-danger">Investigación Especial (Ojo Público)</div>
+                            <div class="text-xs text-slate-500 mt-1">Reportaje de investigación económica sobre la concentración del subsidio y argumentos de reforma.</div>
                         </div>
                     </a>
                 </div>
@@ -463,14 +491,19 @@
 </div>
 
 <script>
+    // Sistema de Navegación SPA
     function nav(sectionId) {
+        // Controlar visibilidad de secciones
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.getElementById(sectionId).classList.add('active');
+        
+        // Controlar estilos de botones
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
         const mapping = ['home', 'teoria', 'historia', 'reglas', 'simulador', 'fuentes'];
         const index = mapping.indexOf(sectionId);
         if (index >= 0) document.querySelectorAll('.nav-item')[index].classList.add('active');
 
+        // Lazy Loading para gráficos de Chart.js
         if(sectionId === 'historia' && !chartHistoryLoaded) {
             const card = document.querySelector('#historia .interactive-card:nth-child(2)');
             if(card && card.classList.contains('active')) renderHistoryChart();
@@ -481,12 +514,14 @@
         }
     }
 
+    // Comportamiento Acordeón Interactivo
     function toggleCard(element, callback = null) {
         const body = element.querySelector('.card-body');
         const icon = element.querySelector('.fa-chevron-down');
         const isClosed = !element.classList.contains('active');
         const parent = element.parentElement;
         
+        // Cierra los elementos hermanos
         parent.querySelectorAll('.interactive-card').forEach(card => {
             card.classList.remove('active');
             card.querySelector('.card-body').classList.remove('show');
@@ -494,88 +529,103 @@
             if (chevron) chevron.style.transform = 'rotate(0deg)';
         });
 
+        // Abre el seleccionado
         if (isClosed) {
             element.classList.add('active');
             body.classList.add('show');
             if (icon) icon.style.transform = 'rotate(180deg)';
-            if (callback) setTimeout(callback, 50); 
+            
+            // Si hay un callback (ej. renderizar un gráfico), ejecutarlo
+            if (callback) setTimeout(callback, 100); 
         }
     }
 
+    // Lógica Matemática y de Auditoría del Simulador
     function runDrawbackCalc() {
         const fobBruto = parseFloat(document.getElementById('fob-input').value) || 0;
         const deducciones = parseFloat(document.getElementById('deducciones-input').value) || 0;
         const cif = parseFloat(document.getElementById('cif-input').value) || 0;
+        
+        // Reglas de exclusión (Checkboxes)
         const excTlc = document.getElementById('exc-tlc').checked;
         const excTrad = document.getElementById('exc-trad').checked;
         const exc20m = document.getElementById('exc-20m').checked;
+        
+        // UI Elements
         const statusEl = document.getElementById('calc-status');
         const resultEl = document.getElementById('calc-result');
         const msgBox = document.getElementById('calc-message');
 
         const fobNeto = fobBruto - deducciones;
-        const rejectClassStatus = "px-3 py-1.5 rounded text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/50";
+        
+        // Clases de estilo predefinidas para validación
+        const rejectClassStatus = "px-2 py-1 rounded text-[0.7rem] font-bold bg-red-500/20 text-red-400 border border-red-500/50";
         const rejectClassResult = "text-2xl font-bold font-['Space_Grotesk'] text-danger mt-1 tracking-tight";
-        const rejectClassMsgBox = "mt-4 p-5 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800 shadow-sm text-justify leading-relaxed";
+        const rejectClassMsgBox = "mt-3 p-4 rounded-xl bg-red-50 border border-red-200 text-[0.8rem] text-red-800 shadow-sm text-justify leading-relaxed";
 
+        // Filtro 1: Matemática básica
         if (fobNeto <= 0) {
             statusEl.innerText = "ERROR EN DATOS";
-            statusEl.className = "px-3 py-1.5 rounded text-xs font-bold bg-slate-500/20 text-slate-300 border border-slate-500/50";
+            statusEl.className = "px-2 py-1 rounded text-[0.7rem] font-bold bg-slate-500/20 text-slate-300 border border-slate-500/50";
             resultEl.innerText = "$ 0.00";
-            resultEl.className = "text-4xl font-bold font-['Space_Grotesk'] text-slate-400 tracking-tight";
-            msgBox.innerHTML = "El FOB Neto no puede ser cero o negativo. Revisa los valores ingresados.";
-            msgBox.className = "mt-4 p-5 rounded-xl bg-slate-100 border border-slate-300 text-sm text-slate-600 shadow-sm text-justify leading-relaxed";
+            resultEl.className = "text-2xl font-bold font-['Space_Grotesk'] text-slate-400 tracking-tight mt-1";
+            msgBox.innerHTML = "El FOB Neto no puede ser cero o negativo. Revisa que el FOB Bruto sea mayor a las deducciones de fletes.";
+            msgBox.className = "mt-3 p-4 rounded-xl bg-slate-100 border border-slate-300 text-[0.8rem] text-slate-600 shadow-sm text-justify leading-relaxed";
             return;
         }
 
+        // Filtro 2: Exclusiones de SUNAT/MEF
         if (excTlc || excTrad || exc20m) {
-            statusEl.innerText = "DENEGADO (EXCLUSIÓN)";
+            statusEl.innerText = "BENEFICIO DENEGADO";
             statusEl.className = rejectClassStatus;
             resultEl.innerText = "No califica";
             resultEl.className = rejectClassResult;
             
             let razones = "";
-            if (excTlc) razones += "<li><strong>Uso de TLC (0%):</strong> Importaste aprovechando preferencias arancelarias. No pagaste arancel.</li>";
-            if (excTrad) razones += "<li><strong>Exportación Tradicional:</strong> Producto excluido por normativa MEF.</li>";
-            if (exc20m) razones += "<li><strong>Tope Excedido:</strong> Superaste los US$ 20 millones en envíos para esta subpartida.</li>";
+            if (excTlc) razones += "<li><strong>TLC (0%):</strong> Importaste sin pagar aranceles. La ley exige el 100%.</li>";
+            if (excTrad) razones += "<li><strong>Tradicional:</strong> Producto excluido por el MEF.</li>";
+            if (exc20m) razones += "<li><strong>Tope Excedido:</strong> Superaste los US$ 20M en la subpartida.</li>";
 
             msgBox.className = rejectClassMsgBox;
-            msgBox.innerHTML = `<h4 class="font-bold mb-2 flex items-center"><i class="fa-solid fa-triangle-exclamation mr-2 text-lg"></i> Beneficio Denegado</h4>
+            msgBox.innerHTML = `<h4 class="font-bold mb-1 flex items-center text-red-900"><i class="fa-solid fa-ban mr-2"></i> Operación Rechazada</h4>
                                 <ul class="list-disc pl-5 space-y-1">${razones}</ul>`;
             return;
         }
 
+        // Filtro 3: Límite de Valor Agregado (50% CIF)
         const cifPercentage = (cif / fobNeto) * 100;
-        
         if (cifPercentage > 50) {
             statusEl.innerText = "DENEGADO (REGLA CIF)";
             statusEl.className = rejectClassStatus;
             resultEl.innerText = "Supera 50%";
             resultEl.className = rejectClassResult;
             msgBox.className = rejectClassMsgBox;
-            msgBox.innerHTML = `<h4 class="font-bold mb-2 flex items-center"><i class="fa-solid fa-scale-unbalanced mr-2 text-lg"></i> Falla en Valor Agregado</h4>
-                                <p>Tu costo CIF ($${cif.toLocaleString('en-US')}) representa el <span class="font-bold text-red-600">${cifPercentage.toFixed(1)}%</span> del FOB Neto ($${fobNeto.toLocaleString('en-US')}). Supera el límite legal del 50%.</p>`;
+            msgBox.innerHTML = `<h4 class="font-bold mb-1 flex items-center text-red-900"><i class="fa-solid fa-scale-unbalanced mr-2"></i> Falla en Límite CIF</h4>
+                                <p>Tu costo CIF ($${cif.toLocaleString('en-US')}) es el <span class="font-bold text-red-600">${cifPercentage.toFixed(1)}%</span> del FOB Neto. Has superado el máximo legal del 50%.</p>`;
             return;
         } 
         
+        // PASA AUDITORÍA: Calcular Beneficio
         statusEl.innerText = "AUDITORÍA APROBADA";
-        statusEl.className = "px-3 py-1.5 rounded text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 tracking-wide";
-        const drawback = fobNeto * 0.03;
+        statusEl.className = "px-2 py-1 rounded text-[0.7rem] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/50 tracking-wide";
+        const drawback = fobNeto * 0.03; // Cálculo del 3%
         resultEl.innerText = `$ ${drawback.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits:2})}`;
-        resultEl.className = "text-4xl md:text-5xl font-bold font-['Space_Grotesk'] text-success tracking-tight";
+        resultEl.className = "text-3xl md:text-4xl font-bold font-['Space_Grotesk'] text-success tracking-tight";
 
-        msgBox.className = "mt-4 p-5 rounded-xl bg-white border border-emerald-200 text-sm text-slate-700 shadow-sm text-justify leading-relaxed";
-        msgBox.innerHTML = `<h4 class="font-bold mb-2 flex items-center text-emerald-700"><i class="fa-solid fa-circle-check mr-2 text-lg"></i> ¡Simulación Exitosa!</h4>
-            <ul class="space-y-1 mb-3">
-                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i><strong>FOB Neto:</strong> $${fobNeto.toLocaleString('en-US')}.</li>
-                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i><strong>Regla CIF:</strong> <span class="font-bold text-emerald-600">${cifPercentage.toFixed(1)}%</span> (≤ 50%).</li>
-                <li><i class="fa-solid fa-check text-emerald-500 mr-2"></i><strong>Exclusiones:</strong> Ninguna detectada.</li>
-            </ul>
-            <div class="p-3 bg-emerald-50 rounded-lg text-emerald-800 text-xs font-bold text-center border border-emerald-100 uppercase tracking-wide">
-                <i class="fa-solid fa-building-columns mr-1"></i> SUNAT abonaría: $ ${drawback.toLocaleString('en-US', {minimumFractionDigits: 2})}
+        msgBox.className = "mt-3 p-4 rounded-xl bg-white border border-emerald-200 text-[0.8rem] text-slate-700 shadow-sm text-justify leading-relaxed";
+        msgBox.innerHTML = `<h4 class="font-bold mb-2 flex items-center text-emerald-700"><i class="fa-solid fa-circle-check mr-2"></i> Simulación Exitosa</h4>
+            <div class="flex flex-col md:flex-row justify-between gap-2">
+                <ul class="space-y-1">
+                    <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> Base: $${fobNeto.toLocaleString('en-US')}</li>
+                    <li><i class="fa-solid fa-check text-emerald-500 mr-1"></i> CIF Validado: <span class="font-bold text-emerald-600">${cifPercentage.toFixed(1)}%</span></li>
+                </ul>
+                <div class="p-2 bg-emerald-50 rounded text-emerald-800 font-bold border border-emerald-100 flex items-center justify-center">
+                    SUNAT abona: $ ${drawback.toLocaleString('en-US', {minimumFractionDigits: 2})}
+                </div>
             </div>`;
     }
 
+    // Formateador de etiquetas para Chart.js
     function wrapLabel(str, maxChars) {
         if (str.length <= maxChars) return str;
         const words = str.split(' ');
@@ -589,6 +639,7 @@
         return lines;
     }
 
+    // Configuración universal Tooltip Chart.js
     const tooltipConfig = {
         backgroundColor: '#1E293B', titleFont: { size: 13, weight: 'bold' }, bodyFont: { size: 12 }, padding: 10, cornerRadius: 8,
         callbacks: {
@@ -602,47 +653,50 @@
 
     Chart.defaults.font.family = "'Inter', sans-serif";
 
+    // Variables de control de renderizado de gráficos
     let chartHistoryLoaded = false;
     let chartLimitLoaded = false;
 
+    // Renderizar Chart 1: Evolución de Tasas
     function renderHistoryChart() {
         if (chartHistoryLoaded) return;
         const canvas = document.getElementById('historyChart');
         if (!canvas) return; 
         const ctx = canvas.getContext('2d');
-        const rawLabels = ['1995 (Inicio D.S. 104)', '2008 (Estabilidad)', '2009 (Crisis Subprime)', '2010 (Recuperación)', '2015 (Ajuste MEF)', '2016-2026 (Actual)'];
+        const rawLabels = ['1995 (Creación)', '2009 (Rescate Crisis)', '2014 (Retorno Tasa Base)', '2015 (Sinceramiento)', '2026 (Actual)'];
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: rawLabels.map(l => wrapLabel(l, 16)),
                 datasets: [{
                     label: 'Tasa Drawback (%)',
-                    data: [5, 5, 8, 5, 4, 3],
+                    data: [5, 8, 5, 4, 3],
                     borderColor: '#2563EB',
                     backgroundColor: 'rgba(37, 99, 235, 0.15)',
-                    borderWidth: 3, tension: 0.4, fill: true,
+                    borderWidth: 3, tension: 0.3, fill: true,
                     pointBackgroundColor: '#F59E0B', pointRadius: 6, pointBorderWidth: 2, pointBorderColor: '#fff' 
                 }]
             },
             options: {
                 responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { display: false }, tooltip: tooltipConfig },
-                scales: { y: { beginAtZero: true, max: 10, title: { display: true, text: 'Tasa del Beneficio (%)', font: {weight: 'bold'} } } }
+                scales: { y: { beginAtZero: true, max: 10, title: { display: true, text: 'Tasa Porcentual (%)', font: {weight: 'bold'} } } }
             }
         });
         chartHistoryLoaded = true;
     }
 
+    // Renderizar Chart 2: Donut Límite CIF
     function renderLimitChart() {
         if (chartLimitLoaded) return;
         const canvas = document.getElementById('limitChart');
         if (!canvas) return; 
         const ctx = canvas.getContext('2d');
-        const rawLabels = ['Límite Costo CIF', 'Valor Nacional'];
+        const rawLabels = ['Límite Legal Insumos Importados (CIF)', 'Valor Agregado de Origen Nacional'];
         new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: rawLabels.map(l => wrapLabel(l, 16)),
+                labels: rawLabels.map(l => wrapLabel(l, 25)),
                 datasets: [{
                     data: [50, 50],
                     backgroundColor: ['#EF4444', '#10B981'],
@@ -657,6 +711,7 @@
         chartLimitLoaded = true;
     }
 
+    // Inicializar lógica base
     window.onload = () => {
         runDrawbackCalc(); 
     };

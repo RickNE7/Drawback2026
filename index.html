@@ -67,18 +67,20 @@
             height: var(--nav-height); display: flex; justify-content: space-around; 
             align-items: center; z-index: 100; padding-bottom: env(safe-area-inset-bottom); 
             flex-shrink: 0; box-shadow: 0 -4px 20px rgba(0,0,0,0.03); 
+            overflow-x: auto; scrollbar-width: none;
         }
+        .nav-bar::-webkit-scrollbar { display: none; }
         @media (min-width: 1024px) {
             .nav-bar { 
                 width: 260px; height: 100%; flex-direction: column; justify-content: flex-start; 
                 border-top: none; border-right: 1px solid var(--border); padding: 2rem 1rem; 
-                gap: 0.5rem; box-shadow: none; overflow-y: auto; 
+                gap: 0.5rem; box-shadow: none; overflow-y: auto; overflow-x: hidden;
             }
         }
         .nav-item { 
             background: none; border: none; display: flex; flex-direction: column; 
             align-items: center; color: #94A3B8; font-size: 0.65rem; gap: 4px; cursor: pointer; 
-            transition: all 0.3s; padding: 8px; flex: 1; font-weight: 600; 
+            transition: all 0.3s; padding: 8px 12px; flex: 1; font-weight: 600; min-width: 75px;
         }
         .nav-item i { font-size: 1.4rem; margin-bottom: 2px; transition: transform 0.2s; }
         @media (min-width: 1024px) {
@@ -180,7 +182,7 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
     </style>
-    <!-- HTML Comment: Archivo SPA. Restricciones acatadas: NO SVG, NO Mermaid JS. Todas las tarjetas inician cerradas por defecto. Interacción exclusiva en cabeceras. -->
+    <!-- HTML Comment: Archivo SPA. Restricciones acatadas: NO SVG, NO Mermaid JS. Favicon oficial añadido. Integración de caso Machu Picchu Food. -->
 </head>
 <body>
 
@@ -192,6 +194,7 @@
         <button class="nav-item" onclick="nav('teoria')"><i class="fa-solid fa-graduation-cap"></i><span>Conceptos</span></button>
         <button class="nav-item" onclick="nav('historia')"><i class="fa-solid fa-chart-line"></i><span>Debate</span></button>
         <button class="nav-item" onclick="nav('reglas')"><i class="fa-solid fa-scale-unbalanced"></i><span>Reglas</span></button>
+        <button class="nav-item" onclick="nav('caso')"><i class="fa-solid fa-industry"></i><span>Ejemplo Real</span></button>
         <button class="nav-item" onclick="nav('simulador')"><i class="fa-solid fa-laptop-code"></i><span>Simulador</span></button>
         <button class="nav-item" onclick="nav('fuentes')"><i class="fa-solid fa-book-bookmark"></i><span>Fuentes</span></button>
     </nav>
@@ -231,7 +234,7 @@
             <div class="section-content">
                 <div class="bg-blue-50 text-blue-800 p-3 rounded-xl mb-2 text-sm flex gap-3 items-center border border-blue-200 shadow-sm flex-shrink-0">
                     <i class="fa-solid fa-hand-pointer text-xl"></i>
-                    <p class="m-0 text-justify leading-tight"><strong>Explora:</strong> Toca la cabecera de cada tarjeta para abrirla o cerrarla. Puedes interactuar libremente con el contenido de adentro sin que la tarjeta se cierre.</p>
+                    <p class="m-0 text-justify leading-tight"><strong>Explora:</strong> Toca la cabecera de cada tarjeta para abrirla o cerrarla. Su contenido interno es estático para que puedas leer y copiar sin que se oculte por error.</p>
                 </div>
 
                 <!-- Tarjeta 1 (Cerrada por defecto) -->
@@ -352,11 +355,11 @@
                                 <div class="timeline-content text-sm text-justify mt-1">El MEF intentó iniciar la reducción del subsidio, pero la fuerte presión del sector exportador y el congreso obligaron a dar marcha atrás, manteniéndolo en 5%.</div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-date text-danger">Año 2015 (Gestión Alonso Segura)</div>
-                                <div class="timeline-content text-sm text-justify mt-1">El MEF consideró que el beneficio estaba sobredimensionado y planteó su eliminación progresiva. Se inició un "sinceramiento" recortando la tasa del 5% al 4% (2015) y luego al 3% (2016), con la intención original de desaparecerlo completamente.</div>
+                                <div class="timeline-date text-danger">Años 2015 - 2016 (Gestión A. Segura)</div>
+                                <div class="timeline-content text-sm text-justify mt-1">El MEF consideró que el beneficio estaba sobredimensionado y planteó su <strong>eliminación progresiva</strong>. Se inició un "sinceramiento" recortando la tasa del 5% al 4% (2015) y luego al 3% (2016), con la intención original de desaparecerlo completamente (luego frenado).</div>
                             </div>
                             <div class="timeline-item">
-                                <div class="timeline-date text-danger">Octubre 2024 (Gestión José Arista)</div>
+                                <div class="timeline-date text-danger">Octubre 2024 (Gestión J. Arista)</div>
                                 <div class="timeline-content text-sm text-justify mt-1">Ante un forado fiscal cercano a S/ 1,000 millones anuales atribuido a este régimen, el MEF preparó un decreto supremo para recortar el Drawback drásticamente al <strong>1% o incluso 0.5%</strong>. La medida fue abortada en el último minuto tras una masiva presión política y mediática de gremios como ADEX y AGAP.</div>
                             </div>
                         </div>
@@ -386,8 +389,8 @@
                         <div style="background: #EFF6FF; padding: 1.2rem; border-radius: 12px; border: 1px solid #BFDBFE;">
                             <h4 style="color: #1D4ED8; font-weight: 800; font-size: 0.95rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> ¿De qué manera sería la reforma?</h4>
                             <ul class="list-disc pl-5 space-y-2 text-sm text-blue-900 text-justify m-0">
-                                <li><strong>Hacia un Drawback Real y Matemático:</strong> Eliminar el porcentaje fijo sobre el FOB. La aduana calcularía y devolvería <em>únicamente el monto exacto</em> pagado como arancel (Sistema de cuenta corriente). Ni un sol más.</li>
-                                <li><strong>Focalización Exclusiva:</strong> Restringir la norma para que solo acoja a Micro, Pequeñas y Medianas Empresas (MIPYMEs), excluyendo a las grandes agroindustrias y mineras que ya poseen alta competitividad y espaldas financieras.</li>
+                                <li><strong>Hacia un Drawback Real y Matemático:</strong> Eliminar el porcentaje fijo sobre el FOB. La aduana calcularía y devolvería <em>únicamente el monto exacto</em> pagado como arancel (Sistema de cuenta corriente o restitución real). Ni un sol más.</li>
+                                <li><strong>Focalización Exclusiva:</strong> Restringir la norma para que solo acoja a Micro, Pequeñas y Medianas Empresas (MIPYMEs), excluyendo a las grandes corporaciones agroindustriales y mineras que ya poseen alta competitividad y espaldas financieras.</li>
                             </ul>
                         </div>
                     </div>
@@ -444,16 +447,69 @@
             </div>
         </section>
 
-        <!-- 5. SIMULADOR -->
+        <!-- 5. CASO PRÁCTICO -->
+        <section id="caso" class="section">
+            <header class="sticky-header">
+                <span class="subtitle">MÓDULO 4: CASO PRÁCTICO</span>
+                <h2>Ejemplo Aplicado</h2>
+            </header>
+            <div class="section-content">
+                <p class="mb-2 text-justify flex-shrink-0">Analicemos cómo una gran exportadora peruana utiliza la estrategia del Drawback en la vida real.</p>
+
+                <!-- Tarjeta Caso (Cerrada por defecto) -->
+                <div class="interactive-card">
+                    <div class="card-header border-l-4 border-primary" onclick="toggleCard(this)">
+                        <div class="card-icon" style="background: var(--primary);"><i class="fa-solid fa-industry"></i></div>
+                        <div style="flex:1;">
+                            <div class="font-bold text-slate-800">MACHU PICCHU FOODS S.A.C.</div>
+                            <div class="text-xs text-slate-500">RUC: 20500985322</div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300"></i>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-sm text-justify">Esta empresa es líder en la elaboración y exportación de productos derivados del cacao y chocolates finos.</p>
+                        
+                        <div class="mt-4 space-y-3">
+                            <div class="flex gap-3 items-start">
+                                <i class="fa-solid fa-box-open text-secondary mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">1. El Problema (Importación)</h4>
+                                    <p class="text-[0.8rem] text-slate-600 text-justify">Para exportar sus tabletas de chocolate a Europa, necesitan envases especializados (ej. láminas de aluminio de grado alimenticio) que no se fabrican con la misma calidad en Perú. Los importan desde el extranjero.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3 items-start">
+                                <i class="fa-solid fa-chess-knight text-warning mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">2. La Estrategia</h4>
+                                    <p class="text-[0.8rem] text-slate-600 text-justify">Al nacionalizar las láminas de aluminio, deciden <strong>no aplicar ningún TLC</strong> y pagan voluntariamente el 100% de los derechos arancelarios de aduana. Esto encarece su insumo, pero les abre la puerta de la restitución.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3 items-start">
+                                <i class="fa-solid fa-ship text-accent mt-1"></i>
+                                <div>
+                                    <h4 class="font-bold text-sm text-slate-800">3. La Exportación y el Beneficio</h4>
+                                    <p class="text-[0.8rem] text-slate-600 text-justify">Exportan un contenedor de tabletas de chocolate empacadas. Su Valor FOB es de <strong>US$ 200,000</strong>. Como el aluminio costó US$ 30,000 (solo el 15%, cumpliendo la regla del <50%), la SUNAT aprueba su expediente y les deposita el 3% del FOB total: <strong>US$ 6,000 íntegros a su cuenta.</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SIMULADOR -->
         <section id="simulador" class="section">
             <header class="sticky-header">
-                <span class="subtitle">MÓDULO 4: AUDITORÍA VIRTUAL</span>
+                <span class="subtitle">MÓDULO 5: AUDITORÍA VIRTUAL</span>
                 <h2>Simulador Interactivo</h2>
             </header>
             <div class="section-content flex flex-col h-full pb-4">
                 
-                <p class="mb-2 text-sm text-justify text-slate-500 flex-shrink-0">Audita tu exportación. Toca las cabeceras a continuación para desplegar los campos. Si falta espacio, el contenido se desplazará suavemente hacia abajo.</p>
+                <p class="mb-2 text-sm text-justify text-slate-500 flex-shrink-0">Audita tu exportación. Toca las cabeceras a continuación para desplegar los campos. El panel de resultado siempre estará visible en la parte inferior.</p>
 
+                <!-- El contenedor de las tarjetas permite scroll para que el resultado fijo abajo no se oculte -->
                 <div class="calc-screen flex-1 overflow-y-auto custom-scrollbar">
                     
                     <!-- Tarjeta Valores (Cerrada por defecto) -->
@@ -468,21 +524,21 @@
                                     <label class="text-[0.65rem] uppercase tracking-widest text-slate-400 font-bold mb-1 block">FOB Bruto (Total Exportado)</label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                                        <input type="number" id="fob-input" class="calc-input pl-7" value="100000" oninput="runDrawbackCalc()">
+                                        <input type="number" id="fob-input" class="calc-input pl-7" value="150000" oninput="runDrawbackCalc()">
                                     </div>
                                 </div>
                                 <div class="calc-input-group">
                                     <label class="text-[0.65rem] uppercase tracking-widest text-amber-400 font-bold mb-1 block">Comisiones y Deducciones</label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-amber-400 font-bold">-$</span>
-                                        <input type="number" id="deducciones-input" class="calc-input calc-deduction pl-8" value="5000" oninput="runDrawbackCalc()">
+                                        <input type="number" id="deducciones-input" class="calc-input calc-deduction pl-8" value="2500" oninput="runDrawbackCalc()">
                                     </div>
                                 </div>
                                 <div class="calc-input-group">
                                     <label class="text-[0.65rem] uppercase tracking-widest text-secondary font-bold mb-1 block">Costo CIF Insumos Importados</label>
                                     <div class="relative">
                                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 font-bold">$</span>
-                                        <input type="number" id="cif-input" class="calc-input pl-7 border-secondary" value="15000" oninput="runDrawbackCalc()">
+                                        <input type="number" id="cif-input" class="calc-input pl-7 border-secondary" value="25000" oninput="runDrawbackCalc()">
                                     </div>
                                 </div>
                             </div>
@@ -496,7 +552,7 @@
                             <i class="fa-solid fa-chevron-down transition-transform duration-300 text-slate-400"></i>
                         </div>
                         <div class="sim-card-body">
-                            <p class="text-[0.7rem] text-slate-400 mb-3 text-justify leading-tight">Marca las casillas si incurres en estas limitantes. El sistema auditará la exclusión automáticamente en el panel inferior.</p>
+                            <p class="text-[0.7rem] text-slate-400 mb-3 text-justify leading-tight">Marca las casillas si incurres en estas limitantes. El sistema auditará la exclusión automáticamente.</p>
                             <div class="grid grid-cols-1 gap-2">
                                 <label class="custom-checkbox">
                                     <input type="checkbox" id="exc-tlc" onchange="runDrawbackCalc()">
@@ -508,12 +564,13 @@
                                 </label>
                                 <label class="custom-checkbox">
                                     <input type="checkbox" id="exc-20m" onchange="runDrawbackCalc()">
-                                    <span class="text-xs text-slate-300 leading-tight"><strong>Límite US$ 20 Millones:</strong> Tope anual superado en esta misma subpartida.</span>
+                                    <span class="text-xs text-slate-300 leading-tight"><strong>Límite US$ 20 Millones:</strong> Tope anual superado en esta misma subpartida arancelaria.</span>
                                 </label>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Mensaje de Validación Dinámico -->
                     <div id="calc-message" class="mt-2 p-3 rounded-xl bg-white/5 border border-slate-700 text-xs text-slate-300 shadow-sm text-justify hidden flex-shrink-0"></div>
 
                 </div>
@@ -533,10 +590,10 @@
             </div>
         </section>
 
-        <!-- 6. FUENTES -->
+        <!-- 7. FUENTES -->
         <section id="fuentes" class="section">
             <header class="sticky-header">
-                <span class="subtitle">MÓDULO 5: BIBLIOGRAFÍA</span>
+                <span class="subtitle">MÓDULO 6: BIBLIOGRAFÍA</span>
                 <h2>Fuentes de Información</h2>
             </header>
             <div class="section-content">
@@ -597,9 +654,17 @@
         document.getElementById(sectionId).classList.add('active');
         
         document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-        const mapping = ['home', 'teoria', 'historia', 'reglas', 'simulador', 'fuentes'];
+        const mapping = ['home', 'teoria', 'historia', 'reglas', 'caso', 'simulador', 'fuentes'];
         const index = mapping.indexOf(sectionId);
-        if (index >= 0) document.querySelectorAll('.nav-item')[index].classList.add('active');
+        if (index >= 0) {
+            document.querySelectorAll('.nav-item')[index].classList.add('active');
+            // Asegurar que el elemento activo sea visible en el menú con scroll horizontal en móviles
+            const navBar = document.querySelector('.nav-bar');
+            const activeItem = document.querySelectorAll('.nav-item')[index];
+            if (window.innerWidth < 1024) {
+                navBar.scrollTo({ left: activeItem.offsetLeft - (navBar.offsetWidth/2) + (activeItem.offsetWidth/2), behavior: 'smooth' });
+            }
+        }
     }
 
     // --- LÓGICA DE TARJETAS EDUCATIVAS (Acordeones Estrictos) ---
@@ -646,7 +711,7 @@
             // Auto-scroll para asegurar que el contenido desplazado se vea en pantallas pequeñas
             setTimeout(() => {
                 const scrollContainer = document.querySelector('.calc-screen');
-                scrollContainer.scrollTo({ top: cardElement.offsetTop - 20, behavior: 'smooth' });
+                scrollContainer.scrollTo({ top: cardElement.offsetTop - 10, behavior: 'smooth' });
             }, 300);
         }
     }
@@ -673,7 +738,7 @@
         // Estilos Tailwind dinámicos para alertas
         const rejectClassStatus = "px-2 py-1 rounded text-[0.7rem] font-bold bg-red-500/20 text-red-400 border border-red-500/50 tracking-wide";
         const rejectClassResult = "text-2xl font-bold font-['Space_Grotesk'] text-danger mt-1 tracking-tight";
-        const rejectClassMsgBox = "mt-3 p-3 rounded-xl bg-red-950/40 border border-red-900/50 text-[0.8rem] text-red-200 shadow-sm text-justify leading-relaxed block";
+        const rejectClassMsgBox = "mt-3 p-3 rounded-xl bg-red-950/40 border border-red-900/50 text-[0.8rem] text-red-200 shadow-sm text-justify leading-relaxed block flex-shrink-0";
 
         // 1. Error de Entrada
         if (fobNeto <= 0) {
@@ -682,7 +747,7 @@
             resultEl.innerText = "$ 0.00";
             resultEl.className = "text-2xl font-bold font-['Space_Grotesk'] text-slate-400 tracking-tight mt-1";
             msgBox.innerHTML = "<i class='fa-solid fa-circle-exclamation text-amber-500 mr-2'></i> El FOB Neto calculado no puede ser negativo o cero.";
-            msgBox.className = "mt-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700 text-[0.8rem] text-slate-300 shadow-sm text-justify leading-relaxed block";
+            msgBox.className = "mt-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700 text-[0.8rem] text-slate-300 shadow-sm text-justify leading-relaxed block flex-shrink-0";
             return;
         }
 
@@ -724,7 +789,7 @@
         resultEl.innerText = `$ ${drawback.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits:2})}`;
         resultEl.className = "text-3xl md:text-4xl font-bold font-['Space_Grotesk'] text-success tracking-tight";
 
-        msgBox.className = "mt-3 p-3 rounded-xl bg-emerald-950/30 border border-emerald-900/50 text-[0.8rem] text-emerald-100 shadow-sm text-justify leading-relaxed block";
+        msgBox.className = "mt-3 p-3 rounded-xl bg-emerald-950/30 border border-emerald-900/50 text-[0.8rem] text-emerald-100 shadow-sm text-justify leading-relaxed block flex-shrink-0";
         msgBox.innerHTML = `
             <div class="flex flex-col gap-2">
                 <h4 class="font-bold text-emerald-400"><i class="fa-solid fa-file-circle-check mr-2"></i> Cumple con los requisitos del DS N° 104-95-EF</h4>
